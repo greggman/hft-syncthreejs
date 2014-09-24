@@ -1,0 +1,19 @@
+{
+  "name": "SyncThreeJS",
+  "description": "Example of syncing monitors across machines using HappyFunTimes",
+  "version": "0.0.1",
+  "private": false,
+  "dependencies": {
+  },
+  "happyFunTimes": {
+    "gameId": "syncThreeJS",
+    "category": "example",
+    "apiVersion": "1.4.0",
+    "gameType": "html-example",
+    "minPlayers": 0,
+    "templateUrls": [
+      "phone-launcher.html",
+      "syncThreeJS.html"
+    ]
+  }
+}
