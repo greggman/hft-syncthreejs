@@ -37,7 +37,6 @@ function $(id) {
 // Start the main app logic.
 requirejs(
   [ 'hft/gameserver',
-    'hft/gameclient',
     'hft/syncedclock',
     '../bower_components/three.js/build/three.min',
     'hft/misc/misc',
@@ -45,7 +44,6 @@ requirejs(
     'hft/misc/ui',
   ], function(
     GameServer,
-    GameClient,
     SyncedClock,
     ThreeJS,
     Misc,
@@ -98,14 +96,14 @@ requirejs(
   };
 
   var server;
-  if (globals.server) {
-    server = new GameServer({
-      disconnectPlayersIfGameDisconnects: false,
-    });
-    server.addEventListener('playerconnect', noop);
-    server.addEventListener('connected', noop);
-    server.addEventListener('disconnected', noop);
+  server = new GameServer({
+    allowMultipleGames: true,
+  });
+  server.addEventListener('connected', noop);
+  server.addEventListener('disconnected', noop);
+  server.addEventListener('set', handleSetMsg);
 
+  if (globals.server) {
     var uiElement = $("ui");
     uiElement.style.display = "block";
 
@@ -116,7 +114,7 @@ requirejs(
 
       UI.addRange(uiElement, label, data, propertyName, min, max, function() {
         // send the data to the server. It will come back on the client. See handleSetMsg
-        server.broadcastCmd('set', data);
+        server.broadcastCmdToGames('set', data);
       });
     };
 
@@ -125,21 +123,16 @@ requirejs(
     addRange("number of balls", "numBalls", 1, 200);
 
     // Send all the shared settings in case we've restarted the server.
-    server.broadcastCmd('set', globals.shared);
+    server.broadcastCmdToGames('set', globals.shared);
 
     var onMouseMove = function(event) {
       var x = event.clientX - window.innerWidth  / 2;
       var y = event.clientY - window.innerHeight / 2;
-      server.broadcastCmd('set', { cameraPosition: {x: x, y: y}});
+      server.broadcastCmdToGames('set', { cameraPosition: {x: x, y: y}});
     };
 
     document.addEventListener('mousemove', onMouseMove, false);
   }
-
-  var client = new GameClient();
-  client.addEventListener('connected', noop);
-  client.addEventListener('disconnected', noop);
-  client.addEventListener('set', handleSetMsg);
 
   var clock = SyncedClock.createClock(true);
 
