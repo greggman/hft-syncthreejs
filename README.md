@@ -44,8 +44,8 @@ The basic premise is this:
 
     The difference between those URLs is the `left` parameter and the `server` parameter.
     One machine is "the server". It controls the other machines. The `left` and `top` parameters
-    tell that machine which part of the larger virtual display it represents. The machines look up the size
-    if the window they create to get the their width and height.
+    tell that machine which part of the larger virtual display it represents. Each machine looks up the size
+    of the window it creates to get the correct width and height.
 
     After that the sample uses [three.js](http://threejs.org) and sets the camera's parameters calling
     `camera.setViewOffset` that part of the scene rendered represents
