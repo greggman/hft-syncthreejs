@@ -32,7 +32,74 @@
 "use strict";
 
 requirejs([], function() {
-  window.location.href = "launcher.html";
+  var launch = function(opt) {
+    opt = opt || {};
+
+    var numWindows = 3;
+
+    // use a width so there's at least 1 window left of space.
+    var width  = window.screen.availWidth / (numWindows + 1) | 0;
+    var height = window.screen.availHeight / 3 * 2 | 0;
+
+    var settings = {
+      shared: {
+        fullWidth:  width * numWindows,
+        fullHeight: height,
+        useWindowPosition: opt.useWindowPosition,
+      },
+    };
+
+    var options = {
+      resizeable: 1,
+      scrollbars: 1,
+      menubar: 1,
+      toolbar: 1,
+      location: 1,
+      width: width,
+      height: height,
+    };
+
+    if (opt.useWindowPosition) {
+      settings.shared.fullWidth = window.screen.availWidth;
+      settings.shared.fullHeight = window.screen.availHeight;
+    }
+
+    var middle = numWindows / 2 | 0;
+    var windows = [];
+    for (var ii = 0; ii < numWindows; ++ii) {
+      options.left = 10 + window.screen.availLeft + ii * width;
+      options.top  = 10 + window.screen.availTop;
+
+      if (!opt.useWindowPosition) {
+        settings.x = ii * width;
+        settings.y = 0;
+      }
+
+      settings.server = ii == middle ? true : undefined;
+
+      windows.push({
+        url: "syncThreeJS.html?settings=" + JSON.stringify(settings).replace(/"/g, ""),
+        title: "view " + ii,
+        windowOptions: JSON.stringify(options).replace(/[{}"]/g, "").replace(/\:/g,"="),
+      })
+    }
+
+    var first = windows.splice(middle, 1);
+    windows.unshift(first[0]);
+
+    windows.forEach(function(w) {
+      window.open(w.url, w.title, w.windowOptions);
+    });
+
+  };
+
+  var $ = function(id) {
+    return document.getElementById(id);
+  };
+
+  $("button1").addEventListener('click', function() { launch(); }, false);
+  $("button2").addEventListener('click', function() { launch({useWindowPosition: true}); }, false);
+
 });
 
 
