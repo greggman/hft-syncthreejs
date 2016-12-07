@@ -11,7 +11,18 @@ machines in sync. So for example if you wanted
 to make a virtual display across multiple machines
 this is one technique to do it.
 
+## Running
+
+    git clone https://github.com/greggman/hft-sync2d
+    cd hft-sync2d
+    npm install
+    npm start
+
+Then open a browser window to `http://localhost:18679/game.html`
+
 Choose **"Start Window Position Based"** and then move and resize the windows.
+
+## How it works
 
 The basic premise is this:
 
@@ -55,12 +66,9 @@ The basic premise is this:
 
     As far as keeping settings in sync the machine with `server: true` displays a set of sliders.
     It sends the the updated settings to HappyFunTimes which are then propogated to all the machines.
+    The `server` setting has nothing to do with networking or syncing only whether or not to display to UI
 
 
-Cloning
--------
-
-[If you want to clone this follow the instructions here](https://github.com/greggman/HappyFunTimes/blob/master/docs/makinggames.md)
 
 
 

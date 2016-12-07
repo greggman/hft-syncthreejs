@@ -1,4 +1,3 @@
-<!--
 /*
  * Copyright 2014, Gregg Tavares.
  * All rights reserved.
@@ -29,18 +28,44 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
--->
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
-  <title>Sync Three.js</title>
-  <link rel="stylesheet" href="css/syncThreeJS.css">
-</head>
-<body>
-  <canvas id="c"></canvas>
-  <div id="ui"></div>
-  <script data-main="scripts/syncThreeJS.js" src="/node_modules/requirejs/require.js"></script>
-</body>
-</html>
+"use strict";
+
+define(function() {
+
+  var PseudoRandomGenerator = function() {
+    var s_randomSeed = 0;
+    var RANDOM_RANGE = Math.pow(2, 32);
+
+    var random = function() {
+      return (s_randomSeed =
+              (134775813 * s_randomSeed + 1) %
+              RANDOM_RANGE) / RANDOM_RANGE;
+    };
+
+    this.random = random;
+
+    this.reset = function() {
+      s_randomSeed = 0;
+    };
+
+    this.randomRange = function(min, max) {
+      return min + random() * (max - min);
+    };
+
+    this.randomInt = function(range) {
+      return random() * range | 0;
+    };
+  };
+
+  var def = new PseudoRandomGenerator();
+
+  return {
+    PseudoRandomGenerator: PseudoRandomGenerator,
+    pseudoRandom: def.random,
+    pseudoRandomRange: def.randomRange,
+    pseudoRandomInt: def.randomInt,
+    resetPseudoRandom: def.reset,
+  };
+});
+
+

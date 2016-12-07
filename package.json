@@ -1,18 +1,23 @@
 {
-  "dependencies": {},
-  "description": "Example of syncing monitors across machines using HappyFunTimes",
-  "happyFunTimes": {
-    "apiVersion": "1.10.0",
-    "category": "example",
-    "gameId": "syncThreeJS",
-    "gameType": "html-example",
-    "minPlayers": 0,
-    "templateUrls": [
-      "phone-launcher.html",
-      "syncThreeJS.html"
-    ]
-  },
   "name": "SyncThreeJS",
+  "description": "Example of syncing monitors across machines using HappyFunTimes",
   "private": false,
-  "version": "0.0.2"
+  "version": "0.0.2",
+  "scripts": {
+    "start": "node node_modules/happyfuntimes/start.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/greggman/hft-sync2d.git"
+  },
+  "author": "Gregg Tavares",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/greggman/hft-sync2d/issues"
+  },
+  "homepage": "https://github.com/greggman/hft-sync2d#readme",
+  "dependencies": {
+    "happyfuntimes": "^0.2.1",
+    "requirejs": "^2.3.2"
+  }
 }

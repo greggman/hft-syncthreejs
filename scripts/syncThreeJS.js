@@ -35,16 +35,14 @@ function $(id) {
 }
 
 // Start the main app logic.
-requirejs(
-  [ 'hft/gameserver',
-    'hft/syncedclock',
-    '../bower_components/three.js/build/three.min',
-    'hft/misc/misc',
-    'hft/misc/random',
-    'hft/misc/ui',
+requirejs([
+    '../node_modules/happyfuntimes/dist/hft.js',
+    '../3rdparty/three.js/build/three.min',
+    './misc',
+    './random',
+    './ui',
   ], function(
-    GameServer,
-    SyncedClock,
+    hft,
     ThreeJS,
     Misc,
     Random,
@@ -96,7 +94,7 @@ requirejs(
   };
 
   var server;
-  server = new GameServer({
+  server = new hft.GameServer({
     allowMultipleGames: true,
   });
   server.addEventListener('connected', noop);
@@ -134,7 +132,7 @@ requirejs(
     document.addEventListener('mousemove', onMouseMove, false);
   }
 
-  var clock = SyncedClock.createClock(true);
+  var clock = hft.SyncedClock.createClock(true);
 
   var canvas = $("c");
   var renderer = new THREE.WebGLRenderer({canvas: canvas});
